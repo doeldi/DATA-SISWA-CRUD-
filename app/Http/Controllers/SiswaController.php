@@ -32,16 +32,29 @@ class SiswaController extends Controller
     public function store(Request $request)
     {
         // Validasi input
-        $request->validate([
-            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nis' => 'required|string|max:255',
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'rombel' => 'required|string|max:255',
-            'rayon' => 'required|string|max:255',
-        ]);
-    
-    
+        $request->validate(
+            [
+                'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'nis' => 'required|string|max:255|unique',
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|max:255|unique',
+                'rombel' => 'required|string|max:255',
+                'rayon' => 'required|string|max:255',
+            ],
+            [
+                'nis.required' => 'NIS harus diisi.',
+                'nis.string' => 'NIS harus berupa string.',
+                'nis.unique' => 'NIS sudah digunakan.',
+                'nama.required' => 'Nama harus diisi.',
+                'nama.string' => 'Nama harus berupa string.',
+                'email.required' => 'Email harus diisi.',
+                'email.email' => 'Email harus berupa email yang valid.',
+                'email.unique' => 'Email sudah digunakan.',
+                'rombel.required' => 'Rombel harus diisi.',
+                'rombel.string' => 'Rombel harus berupa string.',
+            ]
+        );
+
         // Simpan data siswa
         $siswa = new Siswa();
         if ($request->hasFile('foto')) {
@@ -53,14 +66,14 @@ class SiswaController extends Controller
         $siswa->rombel = $request->input('rombel');
         $siswa->rayon = $request->input('rayon');
         $siswa->save();
-    
+
         // Cari rombel yang sesuai
         $rombel = Rombel::where('rombel', $siswa->rombel)->first();
         if ($rombel) {
             $siswa->rombel_id = $rombel->id; // Set the rombel_id for the student
             $siswa->save(); // Save the changes
         }
-    
+
         return redirect()->route('siswa.index')->with('success', 'Data Siswa Berhasil Ditambahkan');
     }
 
@@ -87,14 +100,26 @@ class SiswaController extends Controller
     public function update(Request $request, $id)
     {
         // Validasi input
-        $request->validate([
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'nis' => 'required|string|max:255',
-            'nama' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'rombel' => 'required|string|max:255',
-            'rayon' => 'required|string|max:255',
-        ]);
+        $request->validate(
+            [
+                'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'nis' => 'required|string|max:255',
+                'nama' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'rombel' => 'required|string|max:255',
+                'rayon' => 'required|string|max:255',
+            ], 
+            [
+                'nis.required' => 'NIS harus diisi.',
+                'nis.string' => 'NIS harus berupa string.',
+                'nama.required' => 'Nama harus diisi.',
+                'nama.string' => 'Nama harus berupa string.',
+                'email.required' => 'Email harus diisi.',
+                'email.email' => 'Email harus berupa email yang valid.',
+                'rombel.required' => 'Rombel harus diisi.',
+                'rombel.string' => 'Rombel harus berupa string.',
+            ]
+        );
 
         // Update data siswa
         $siswa = Siswa::find($id);
@@ -112,7 +137,13 @@ class SiswaController extends Controller
         $siswa->rayon = $request->input('rayon');
         $siswa->save();
 
-        return redirect()->route('siswa.index');
+        $rombel = Rombel::where('rombel', $siswa->rombel)->first();
+        if ($rombel) {
+            $siswa->rombel_id = $rombel->id; // Set the rombel_id for the student
+            $siswa->save(); // Save the changes
+        }
+
+        return redirect()->route('siswa.index')->with('success', 'Data Siswa Berhasil di Update');
     }
 
     /**
