@@ -3,27 +3,29 @@
 @section('title', 'Data Siswa')
 
 @section('content')
-    {{-- <div class="row">
+    {{-- <div class="row mb-4">
         <!-- Card for showing total number of students -->
         <div class="col-md-3">
-            <div class="card bg-info text-white mb-4">
+            <div class="card bg-primary text-white shadow-sm mb-4" style="border-radius: 10px;">
                 <div class="card-body">
-                    <h5 class="card-title">SISWA</h5>
-                    <p class="card-text" style="font-size: 24px; font-weight: bold;">{{ \App\Models\Siswa::count() }}</p>
+                    <h5 class="card-title">Jumlah Siswa</h5>
+                    <p class="card-text display-6 fw-bold">{{ \App\Models\Siswa::count() }}</p>
                 </div>
                 <div class="card-footer">
-                    <small>Jumlah total siswa</small>
+                    <small>Total siswa yang terdaftar</small>
                 </div>
             </div>
         </div>
         <!-- Add more cards if needed -->
     </div> --}}
 
-
     <div class="d-flex justify-content-end mb-3">
         <form class="d-flex align-items-center" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search_siswa">
-            <button class="btn btn-outline-primary w-100" type="submit"><i class="fas fa-search"></i> Search</button>
+            <input class="form-control me-2" type="search" placeholder="Cari Siswa" aria-label="Search" name="search_siswa"
+                style="border-radius: 30px;">
+            <button class="btn btn-outline-primary w-100" type="submit" style="border-radius: 30px;">
+                <i class="fas fa-search"></i> Cari
+            </button>
         </form>
     </div>
 
@@ -33,8 +35,8 @@
         </div>
     @endif
 
-    <table class="table table-bordered border-primary text-center align-middle">
-        <thead class="table-primary border-primary">
+    <table class="table table-hover table-bordered border-primary text-center align-middle">
+        <thead class="table-light border-primary">
             <tr>
                 <th>No</th>
                 <th>Foto</th>
@@ -58,10 +60,10 @@
                         <td>
                             @if ($siswa->foto)
                                 <img src="{{ Storage::url($siswa->foto) }}" alt="Foto Siswa" width="50" height="50"
-                                    style="object-fit: cover;">
+                                    style="object-fit: cover">
                             @else
                                 <img src="https://via.placeholder.com/50" alt="Foto default" width="50" height="50"
-                                    style="object-fit: cover;">
+                                    style="object-fit: cover">
                             @endif
                         </td>
                         <td>{{ $siswa->nis }}</td>
@@ -87,29 +89,28 @@
                     <!-- Modal for Preview -->
                     <div class="modal fade" id="previewModal{{ $siswa->id }}" tabindex="-1"
                         aria-labelledby="previewModalLabel{{ $siswa->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content shadow">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="previewModalLabel{{ $siswa->id }}">Data Siswa
-                                    </h5>
+                                    <h5 class="modal-title" id="previewModalLabel{{ $siswa->id }}">Data Siswa</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-                                <div class="d-flex">
-                                    <div class="modal-body">
+                                <div class="modal-body d-flex">
+                                    <div class="w-50">
                                         <p><strong>NIS:</strong> {{ $siswa->nis }}</p>
                                         <p><strong>Nama:</strong> {{ $siswa->nama }}</p>
                                         <p><strong>Email:</strong> {{ $siswa->email }}</p>
                                         <p><strong>Rombel:</strong> {{ $siswa->rombel }}</p>
                                         <p><strong>Rayon:</strong> {{ $siswa->rayon }}</p>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="w-50 text-center">
                                         @if ($siswa->foto)
                                             <img src="{{ Storage::url($siswa->foto) }}" alt="Foto Siswa" width="200"
-                                                height="200" style="object-fit: cover;">
+                                                height="200" class="shadow-sm" style="object-fit: cover">
                                         @else
-                                            <div
-                                                style="width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; background-color: #f0f0f0;">
+                                            <div class="bg-light d-flex justify-content-center align-items-center"
+                                                style="width: 200px; height: 200px; object-fit: cover;">
                                                 <p>No Photo Available</p>
                                             </div>
                                         @endif
@@ -126,13 +127,11 @@
         </tbody>
     </table>
 
-    {{-- delete modal --}}
+    <!-- Delete Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form id="form-delete-siswa" method="POST">
                 @csrf
-                {{-- menimpa method="POST" diganti menjadi delete, sesuai dengan http
-                method untul menghapus data- --}}
                 @method('DELETE')
                 <div class="modal-content">
                     <div class="modal-header">
@@ -152,16 +151,14 @@
     </div>
 
     <!-- Pagination Links -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between align-items-center">
         <a href="{{ route('siswa.create') }}" class="btn btn-primary">Tambah Data Siswa</a>
-
         {{ $siswas->links() }}
     </div>
 @endsection
 
 @push('script')
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
         function showModal(id, nama) {
             let urlDelete = "{{ route('siswa.delete', ':id') }}";

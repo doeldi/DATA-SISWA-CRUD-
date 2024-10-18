@@ -10,7 +10,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="nis" class="form-label">NIS:</label>
                     <input type="text" id="nis" name="nis"
-                        class="form-control @error('nis') is-invalid @enderror" value="{{ old('nis') }}" required>
+                        class="form-control @error('nis') is-invalid @enderror" value="{{ old('nis') }}">
                     @error('nis')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -18,7 +18,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="nama" class="form-label">Nama:</label>
                     <input type="text" id="nama" name="nama"
-                        class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}" required>
+                        class="form-control @error('nama') is-invalid @enderror" value="{{ old('nama') }}">
                     @error('nama')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -28,7 +28,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="email" class="form-label">Email:</label>
                     <input type="email" id="email" name="email"
-                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" required>
+                        class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -46,7 +46,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="rombel" class="form-label">Rombel:</label>
                     <input type="text" id="rombel" name="rombel"
-                        class="form-control @error('rombel') is-invalid @enderror" value="{{ old('rombel') }}" required>
+                        class="form-control @error('rombel') is-invalid @enderror" value="{{ old('rombel') }}">
                     @error('rombel')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -54,7 +54,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="rayon" class="form-label">Rayon:</label>
                     <input type="text" id="rayon" name="rayon"
-                        class="form-control @error('rayon') is-invalid @enderror" value="{{ old('rayon') }}" required>
+                        class="form-control @error('rayon') is-invalid @enderror" value="{{ old('rayon') }}">
                     @error('rayon')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

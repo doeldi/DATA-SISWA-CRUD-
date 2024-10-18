@@ -3,10 +3,24 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\RombelController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 
 Route::get('/', function () {
-    return view('home');
+    if (auth()->check()) {
+        return view('home');
+    } else {
+        return view('welcome');
+    }
 })->name('home');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('/siswa')->name('siswa.')->group(function () {
     Route::get('/', [SiswaController::class, 'index'])->name('index');

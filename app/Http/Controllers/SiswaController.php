@@ -40,18 +40,6 @@ class SiswaController extends Controller
                 'email' => 'required|email|max:255|unique',
                 'rombel' => 'required|string|max:255',
                 'rayon' => 'required|string|max:255',
-            ],
-            [
-                'nis.required' => 'NIS harus diisi.',
-                'nis.string' => 'NIS harus berupa string.',
-                'nis.unique' => 'NIS sudah digunakan.',
-                'nama.required' => 'Nama harus diisi.',
-                'nama.string' => 'Nama harus berupa string.',
-                'email.required' => 'Email harus diisi.',
-                'email.email' => 'Email harus berupa email yang valid.',
-                'email.unique' => 'Email sudah digunakan.',
-                'rombel.required' => 'Rombel harus diisi.',
-                'rombel.string' => 'Rombel harus berupa string.',
             ]
         );
 
@@ -108,16 +96,6 @@ class SiswaController extends Controller
                 'email' => 'required|email|max:255',
                 'rombel' => 'required|string|max:255',
                 'rayon' => 'required|string|max:255',
-            ], 
-            [
-                'nis.required' => 'NIS harus diisi.',
-                'nis.string' => 'NIS harus berupa string.',
-                'nama.required' => 'Nama harus diisi.',
-                'nama.string' => 'Nama harus berupa string.',
-                'email.required' => 'Email harus diisi.',
-                'email.email' => 'Email harus berupa email yang valid.',
-                'rombel.required' => 'Rombel harus diisi.',
-                'rombel.string' => 'Rombel harus berupa string.',
             ]
         );
 

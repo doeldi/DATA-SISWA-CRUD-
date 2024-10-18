@@ -8,30 +8,77 @@
     <title>Manajemen Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+
         .sidebar {
             min-height: 100vh;
-            height: 100%;
+            background: linear-gradient(45deg, #007bff, #6610f2);
+            padding: 30px 10px;
         }
 
         .nav-item .nav-link {
             color: #ffffff;
             font-weight: 500;
-            font-size: 20px;
+            font-size: 18px;
+            transition: background 0.3s, color 0.3s;
+            padding: 12px 20px;
         }
 
-        span {
-            color: blue;
+        .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
         }
 
         .bg-info {
-            background-color: blue !important;
+            background-color: #6610f2 !important;
         }
 
         .nav-link i {
             margin-right: 10px;
+        }
+
+        .sidebar .active {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, #6610f2, #007bff);
+            color: #ffffff;
+        }
+
+        .dropdown-menu {
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        h2 {
+            color: #6610f2;
+            font-weight: 700;
+        }
+
+        /* Responsive improvements */
+        @media (max-width: 768px) {
+            .sidebar {
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+
+            .nav-link {
+                font-size: 16px;
+                padding: 10px;
+            }
         }
     </style>
 
@@ -44,10 +91,10 @@
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-info sidebar">
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky">
                     <ul class="nav flex-column g-4">
-                        <li class="nav-item pb-2 pt-2">
+                        <li class="nav-item pb-2 text-center">
                             <a class="nav-link active border-bottom text-center" href="{{ route('home') }}">
                                 <h3>
                                     <i class="fas fa-graduation-cap"></i> Studata
@@ -79,6 +126,42 @@
                     <h2>
                         @yield('title')
                     </h2>
+
+                    <!-- User information navbar -->
+                    <nav class="navbar navbar-expand-lg rounded">
+                        <div class="container-fluid">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i>Pengguna: {{ Auth::user()->name }}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>
+                                            Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>
+                                            Settings</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
                 </div>
                 @yield('content')
             </div>
