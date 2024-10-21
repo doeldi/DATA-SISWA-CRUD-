@@ -8,7 +8,8 @@
         @method('PATCH')
         <div class="form-group mb-3">
             <label for="rombel">Rombel:</label>
-            <input type="text" class="form-control @error('rombel') is-invalid @enderror" id="rombel" name="rombel" value="{{ $rombel->rombel }}">
+            <input type="text" class="form-control @error('rombel') is-invalid @enderror" id="rombel" name="rombel"
+                value="{{ $rombel->rombel }}">
             @error('rombel')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror

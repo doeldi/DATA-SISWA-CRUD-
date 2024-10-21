@@ -26,7 +26,7 @@
             font-weight: 500;
             font-size: 18px;
             transition: background 0.3s, color 0.3s;
-            padding: 12px 20px;
+            margin-bottom: 7px;
         }
 
         .nav-item .nav-link:hover {
@@ -43,6 +43,12 @@
         }
 
         .sidebar .active {
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            font-weight: 1000;
+        }
+
+        .sidebar .actived {
             background-color: rgba(255, 255, 255, 0.3);
             border-radius: 10px;
         }
@@ -66,6 +72,10 @@
         h2 {
             color: #6610f2;
             font-weight: 700;
+        }
+
+        span {
+            color: #6610f2;
         }
 
         /* Responsive improvements */
@@ -95,28 +105,35 @@
                 <div class="position-sticky">
                     <ul class="nav flex-column g-4">
                         <li class="nav-item pb-2 text-center">
-                            <a class="nav-link active border-bottom text-center" href="{{ route('home') }}">
+                            <a class="nav-link actived border-bottom text-center" href="{{ route('home') }}">
                                 <h3>
                                     <i class="fas fa-graduation-cap"></i> Studata
                                 </h3>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">
-                                <p><i class="fas fa-home"></i> Home</p>
+                            <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                                <i class="fas fa-home"></i> Home
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('siswa.index') }}">
-                                <p><i class="fas fa-user-graduate me-3"></i> Data Siswa</p>
+                            <a class="nav-link {{ Route::is('siswa.index') ? 'active' : '' }}"
+                                href="{{ route('siswa.index') }}">
+                                <i class="fas fa-user-graduate me-3"></i> Data Siswa
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('rombel.data-rombel') }}">
-                                <p><i class="fas fa-users me-2"></i> Data Rombel</p>
+                            <a class="nav-link {{ Route::is('rombel.data-rombel') ? 'active' : '' }}"
+                                href="{{ route('rombel.data-rombel') }}">
+                                <i class="fas fa-users me-2"></i> Data Rombel
                             </a>
                         </li>
                     </ul>
+                    <!-- footer -->
+                    <hr class="border opacity-75">
+                    <div class="text-center">
+                        <p class="text-white mt-3">&copy;2024 - <a href="https://github.com/doeldi" class="text-white" target="_blank">doeldi</a></p>
+                    </div>
                 </div>
             </nav>
 
@@ -131,13 +148,14 @@
                     <nav class="navbar navbar-expand-lg rounded">
                         <div class="container-fluid">
                             <div class="dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
+                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user-circle"></i>Pengguna: {{ Auth::user()->name }}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>
+                                        <a class="dropdown-item" href="{{ route('profile.show') }}"><i
+                                                class="fas fa-user me-2"></i>
                                             Profile</a>
                                     </li>
                                     <li>

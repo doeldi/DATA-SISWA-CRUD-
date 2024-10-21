@@ -42,4 +42,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+     // Relasi satu User memiliki satu Siswa
+     public function siswa()
+     {
+         return $this->hasOne(Siswa::class, 'user_id');
+     }
+ 
+     // Relasi satu User memiliki satu Rombel
+     public function rombel()
+     {
+         return $this->hasOne(Rombel::class, 'user_id');
+     }
 }

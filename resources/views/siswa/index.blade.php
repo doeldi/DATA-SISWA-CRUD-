@@ -19,7 +19,9 @@
         <!-- Add more cards if needed -->
     </div> --}}
 
-    <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{{ route('siswa.create') }}" class="btn btn-primary">Tambah Data Siswa</a>
+
         <form class="d-flex align-items-center" role="search">
             <input class="form-control me-2" type="search" placeholder="Cari Siswa" aria-label="Search" name="search_siswa"
                 style="border-radius: 30px;">
@@ -30,13 +32,19 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success" id="alert">
             {{ session('success') }}
         </div>
     @endif
 
+    @if (session('deleted'))
+        <div class="alert alert-danger" id="alert">
+            {{ session('deleted') }}
+        </div>
+    @endif
+
     <table class="table table-hover table-bordered border-primary text-center align-middle">
-        <thead class="table-light border-primary">
+        <thead class="table-info border-primary">
             <tr>
                 <th>No</th>
                 <th>Foto</th>
@@ -91,9 +99,9 @@
                         aria-labelledby="previewModalLabel{{ $siswa->id }}" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content shadow">
-                                <div class="modal-header">
+                                <div class="modal-header bg-info text-white">
                                     <h5 class="modal-title" id="previewModalLabel{{ $siswa->id }}">Data Siswa</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body d-flex">
@@ -134,9 +142,9 @@
                 @csrf
                 @method('DELETE')
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header bg-info text-white">
                         <h5 class="modal-title" id="exampleModalLabel">Hapus Data Siswa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         Apakah anda yakin ingin menghapus data siswa <span id="nama-siswa"></span>?
@@ -151,8 +159,7 @@
     </div>
 
     <!-- Pagination Links -->
-    <div class="d-flex justify-content-between align-items-center">
-        <a href="{{ route('siswa.create') }}" class="btn btn-primary">Tambah Data Siswa</a>
+    <div class="d-flex justify-content-end align-items-center">
         {{ $siswas->links() }}
     </div>
 @endsection
@@ -166,6 +173,13 @@
             $('#form-delete-siswa').attr('action', urlDelete);
             $('#exampleModal').modal('show');
             $('#nama-siswa').text(nama);
+        }
+
+        var alert = document.getElementById('alert');
+        if (alert) {
+            setTimeout(function() {
+                alert.style.display = 'none';
+            }, 2000);
         }
     </script>
 @endpush

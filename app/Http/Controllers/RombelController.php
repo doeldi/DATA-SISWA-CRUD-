@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rombel;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class rombelController extends Controller
 {
@@ -13,7 +16,11 @@ class rombelController extends Controller
      */
     public function index()
     {
-        $rombels = Rombel::withCount('siswas')->orderBy('rombel', 'ASC')->get();
+        $userId = Auth::id();
+
+        // Tampilkan data rombel yang sesuai dengan user_id
+        $rombels = Rombel::where('user_id', $userId)->withCount('siswas')->orderBy('rombel', 'ASC')->get();
+
         return view('siswa.rombel.class', compact('rombels'));
     }
 
@@ -31,10 +38,23 @@ class rombelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rombel' => 'required',
+            'rombel' => [
+                'required',
+                'string',
+                'max:255',
+            Rule::unique('rombels')->where(function ($query)  {
+                    return $query->where('user_id', Auth::id());
+                }),
+            ],
         ]);
 
-        Rombel::create($request->all());
+        $user = Auth::user();
+
+        // Simpan data rombel
+        $rombel = new Rombel();
+        $rombel->rombel = $request->input('rombel');
+        $rombel->user_id = $user->id; // Simpan user_id dari pengguna yang sedang login
+        $rombel->save();
 
         return redirect()->route('rombel.data-rombel')
             ->with('success', 'Rombel created successfully.');
@@ -65,11 +85,20 @@ class rombelController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'rombel' => 'required',
+            'rombel' => 'required|string|max:255|unique:rombels,rombel,' . $id,
         ]);
 
+        $user = Auth::user();
+
         $rombel = Rombel::findOrFail($id);
-        $rombel->update($request->all());
+        $newRombelName = $request->input('rombel');
+
+        $rombel->rombel = $newRombelName;
+        $rombel->user_id = $user->id;
+        $rombel->save();
+
+        // Update rombel name for all associated students
+        Siswa::where('rombel_id', $id)->update(['rombel' => $newRombelName]);
 
         return redirect()->route('rombel.data-rombel')
             ->with('success', 'Rombel updated successfully.');
@@ -93,7 +122,7 @@ class rombelController extends Controller
             'siswas' => 'required|array',
             'siswas.*' => 'exists:siswas,id', // Validate that the selected IDs exist
         ]);
-    
+
         // Update the selected students to set their rombel_id and replace rombel at tabel siswas with rombel at tabel rombel
         foreach ($request->siswas as $siswaId) {
             $siswa = Siswa::find($siswaId);
@@ -102,7 +131,7 @@ class rombelController extends Controller
             $siswa->rombel = $rombel->rombel; // Set the rombel name for the student
             $siswa->save(); // Save the changes
         }
-    
+
         return redirect()->route('rombel.data-rombel')
             ->with('success', 'Siswa added to Rombel successfully.');
     }

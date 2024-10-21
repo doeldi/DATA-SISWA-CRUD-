@@ -29,7 +29,7 @@
         .login-content {
             flex: 1;
             padding: 50px;
-            background-color: #007bff;
+            background-color: #6610f2 !important;
             color: #ffffff;
             display: flex;
             flex-direction: column;
@@ -39,7 +39,7 @@
 
         .login-title {
             text-align: center;
-            color: #007bff;
+            color: #6610f2;
             margin-bottom: 30px;
         }
 
@@ -51,6 +51,7 @@
             width: 100%;
             padding: 10px;
             font-size: 18px;
+            background-color: #6610f2 !important;
         }
 
         .ornament {
@@ -85,6 +86,7 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input type="password" name="password" class="form-control" required>
+                    <small class="text-muted">Masukkan password yang terdaftar.</small>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-login">Login</button>

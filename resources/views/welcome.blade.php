@@ -60,7 +60,7 @@
 
         body {
             font-family: 'Nunito', sans-serif;
-            background-color: blue;
+            background-color: #6610f2 !important;
             color: #1a202c;
         }
 
